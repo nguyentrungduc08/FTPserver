@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Resources/filehandle.o \
 	${OBJECTDIR}/Resources/server.o \
 	${OBJECTDIR}/Resources/socket.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/serverconnection.o
 
 
 # C Compiler Flags
@@ -90,6 +91,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/serverconnection.o: serverconnection.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/serverconnection.o serverconnection.cpp
 
 # Subprojects
 .build-subprojects:
