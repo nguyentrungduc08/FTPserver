@@ -38,8 +38,14 @@
 
 #include <openssl/bio.h>
 
-int createSocket(int port);
+#define rep(i,n) for(int i = 0; i < n; ++i)
+#define FOR(i,a,b) for(int i = a; i <= b; ++i)
+#define pb push_back
+#define mp make_pair
 
+
+int createSocket(int port);
+void serverFTP(int port);
 
 
 #endif /* FTPS_H */
