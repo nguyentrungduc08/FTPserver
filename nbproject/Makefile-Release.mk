@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Resources/CoreServer.o \
+	${OBJECTDIR}/Resources/filehandle.o \
 	${OBJECTDIR}/Resources/server.o \
 	${OBJECTDIR}/Resources/socket.o \
 	${OBJECTDIR}/main.o
@@ -63,6 +65,16 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ftpserver: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ftpserver ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Resources/CoreServer.o: Resources/CoreServer.cpp
+	${MKDIR} -p ${OBJECTDIR}/Resources
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Resources/CoreServer.o Resources/CoreServer.cpp
+
+${OBJECTDIR}/Resources/filehandle.o: Resources/filehandle.cpp
+	${MKDIR} -p ${OBJECTDIR}/Resources
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Resources/filehandle.o Resources/filehandle.cpp
 
 ${OBJECTDIR}/Resources/server.o: Resources/server.cpp
 	${MKDIR} -p ${OBJECTDIR}/Resources

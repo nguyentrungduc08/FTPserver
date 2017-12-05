@@ -43,6 +43,43 @@
 #define pb push_back
 #define mp make_pair
 
+#define BSIZE 1024
+
+struct Command{
+    std::string command;
+    std::string arg;
+} Command;
+
+static std::string welcome_message = "A very warm welcome!";
+
+typedef struct State
+{
+  /* Connection mode: NORMAL, SERVER, CLIENT */
+  int mode;
+
+  /* Is user loggd in? */
+  int logged_in;
+
+  /* Is this username allowed? */
+  int username_ok;
+  char *username;
+  
+  /* Response message to client e.g. 220 Welcome */
+  char *message;
+
+  /* Commander connection */
+  int connection;
+
+  /* Socket for passive connection (must be accepted later) */
+  int sock_pasv;
+
+  /* Transfer process id */
+  int tr_pid;
+
+} State;
+
+
+typedef enum conn_mode{NORMAL, SERVER, CLIENT} conn_mode;
 
 int createSocket(int port);
 void serverFTP(int port);

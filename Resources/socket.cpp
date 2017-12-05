@@ -35,5 +35,5 @@ int acceptConnection(int socket){
     int addrlen = 0;
     struct sockaddr_in client_address;
     addrlen = sizeof(client_address);
-    return accept(socket , (struct sockaddr *) &client_address, &addrlen);
+    //return accept(socket , (struct sockaddr *) &client_address, &addrlen);
 }
