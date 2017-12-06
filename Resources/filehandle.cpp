@@ -24,7 +24,19 @@ filehandle::~filehandle() {
     this->completePath.clear();
 }
 int filehandle::readFile(std::string fileName){
-    
+    stripServerRootString(fileName);
+    //set binary file model
+    this->currentOpenReadFile.open(fileName.c_str(), std::ios::in|std::ios::binary);
+
+    if (this->currentOpenReadFile.fail()){
+    	std::cerr << "Reading file " << fileName << "failed!" << std::endl;
+    	return (EXIT_FAILURE);
+    }
+    f (this->currentOpenReadFile.is_open()) {
+        return (EXIT_SUCCESS);
+    }
+    std::cerr << "Unable to open file '" << fileName << " '" << std::endl; // << strerror(errno)
+    return (EXIT_FAILURE);
 }
 
 
