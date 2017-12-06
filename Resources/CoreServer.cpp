@@ -13,7 +13,9 @@
 
 #include "../Header/CoreServer.h"
 
-CoreServer::CoreServer() {
+CoreServer::CoreServer(uint port, std::string dir, unsigned short commandOffset) : dir(dir), commadOffset(commadOffset), shutdown(false), connId(0) {
+    
+    
 }
 
 CoreServer::CoreServer(const CoreServer& orig) {

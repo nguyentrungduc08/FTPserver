@@ -17,20 +17,33 @@
 #include "FTPs.h"
 
 #define BUFFER_SIZE 4096
+#define SERVERROOTPATHSTRING "<root>/"
 
 class filehandle {
     
 public:
     
-    filehandle();
+    filehandle(std::string dir);
     filehandle(const filehandle& orig);
     virtual ~filehandle();
-
+    
+    int readFile(std::string fileName);
+    
+    
+    
 private:
     std::vector<std::string> deletedDirectories;
     std::vector<std::string> deletedFiles;
     void getValidFile(std::string *dirName);
-
+    
+    std::ofstream currentOpentFile;
+    std::ifstream currentOpentReadFile;
+    std::list<std::string> completePath;
+    static void IntToString(int i, std::string & res);
+    
+    void stripServerRootString(std::string &dirOrFileName);
+    
+    
 };
 
 #endif /* FILEHANDLE_H */

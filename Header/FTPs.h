@@ -21,6 +21,8 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <list>
+#include <fstream>
 
 #include <sys/types.h>
 #include <sys/socket.h>

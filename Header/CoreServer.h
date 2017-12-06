@@ -19,7 +19,7 @@
 
 class CoreServer {
 public:
-    CoreServer();
+    CoreServer(uint port, std::string dir, unsigned short commandOffset = 1); 
     CoreServer(const CoreServer& orig);
     virtual ~CoreServer();
 private:

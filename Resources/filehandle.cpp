@@ -13,12 +13,25 @@
 
 #include "../Header/filehandle.h"
 
-filehandle::filehandle() {
+filehandle::filehandle(std::string dir) {
+    this->completePath.push_front(dir);
 }
 
 filehandle::filehandle(const filehandle& orig) {
 }
 
 filehandle::~filehandle() {
+    this->completePath.clear();
+}
+int filehandle::readFile(std::string fileName){
+    
 }
 
+
+void filehandle::stripServerRootString(std::string &dirOrFileName){
+    size_t foundRootString = 0;
+    if ( ( dirOrFileName.find_first_of(SERVERROOTPATHSTRING) ) == foundRootString ){
+        int rootStringLength = ( (std::string) SERVERROOTPATHSTRING).length();
+        dirOrFileName = dirOrFileName.substr( rootStringLength, dirOrFileName.length() - rootStringLength);
+    }
+}
