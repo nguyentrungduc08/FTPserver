@@ -27,7 +27,6 @@ private:
     void createSocket(int port);
     void setAttributeSocket(int &sock);
     
-    void setNonBlocking(int &sock);
     //attribute
     unsigned int maxConnects;
     int socMain; //the main listening socket file descripter

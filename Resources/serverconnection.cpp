@@ -6,7 +6,7 @@
 
 /* 
  * File:   serverconnection.cpp
- * Author: hydra
+ * Author: nguyen trung duc
  * 
  * Created on December 5, 2017, 6:58 PM
  */
