@@ -7,13 +7,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/media/veracrypt1/FTPserver/Resources/CoreServer.cpp</file>
-            <file>file:/media/veracrypt1/FTPserver/Resources/server.cpp</file>
-            <file>file:/media/veracrypt1/FTPserver/main.cpp</file>
+            <file>file:/media/veracrypt1/FTPserver/Resources/socket.cpp</file>
             <file>file:/media/veracrypt1/FTPserver/Header/FTPs.h</file>
-            <file>file:/media/veracrypt1/FTPserver/Resources/filehandle.cpp</file>
+            <file>file:/media/veracrypt1/FTPserver/Resources/server.cpp</file>
             <file>file:/media/veracrypt1/FTPserver/Header/CoreServer.h</file>
+            <file>file:/media/veracrypt1/FTPserver/Resources/serverconnection.cpp</file>
+            <file>file:/media/veracrypt1/FTPserver/Resources/CoreServer.cpp</file>
+            <file>file:/media/veracrypt1/FTPserver/main.cpp</file>
+            <file>file:/media/veracrypt1/FTPserver/Resources/filehandle.cpp</file>
             <file>file:/media/veracrypt1/FTPserver/Header/filehandle.h</file>
+            <file>file:/media/veracrypt1/FTPserver/Header/serverconnection.h</file>
         </group>
     </open-files>
 </project-private>

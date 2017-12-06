@@ -14,13 +14,33 @@
 #ifndef SERVERCONNECTION_H
 #define SERVERCONNECTION_H
 
+#include "FTPs.h"
+
 class serverconnection {
 public:
     serverconnection();
     serverconnection(const serverconnection& orig);
     virtual ~serverconnection();
-private:
+    
+    void run();
+    void respondToQuery();
+    int getFD();
+    bool getCloseRequestStatus();
+    unsigned int getConnectionId();
 
+private:
+    int fd; 
+    int fdflags;
+    bool closureRequested;
+    std::vector<std::string> directories;
+    std::vector<std::string> files;
+    unsigned int connectionId;
+    std::string dir;
+    std::string hostAddress;
+    bool uploadCommand;
+    bool downloadCommand;
+    std::string parameter;
+    
 };
 
 #endif /* SERVERCONNECTION_H */

@@ -22,3 +22,14 @@ serverconnection::serverconnection(const serverconnection& orig) {
 serverconnection::~serverconnection() {
 }
 
+int serverconnection::getFD(){
+    return this->fd;
+}
+
+bool serverconnection::getCloseRequestStatus(){
+    return this->closureRequested;
+}
+
+unsigned int serverconnection::getConnectionId(){
+    return this->connectionId;
+}

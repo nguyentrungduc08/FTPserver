@@ -14,12 +14,22 @@
 #ifndef FILEHANDLE_H
 #define FILEHANDLE_H
 
+#include "FTPs.h"
+
+#define BUFFER_SIZE 4096
+
 class filehandle {
+    
 public:
+    
     filehandle();
     filehandle(const filehandle& orig);
     virtual ~filehandle();
+
 private:
+    std::vector<std::string> deletedDirectories;
+    std::vector<std::string> deletedFiles;
+    void getValidFile(std::string *dirName);
 
 };
 

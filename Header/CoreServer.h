@@ -14,6 +14,9 @@
 #ifndef CORESERVER_H
 #define CORESERVER_H
 
+#include "serverconnection.h"
+
+
 class CoreServer {
 public:
     CoreServer();
@@ -24,11 +27,23 @@ private:
     void createSocket(int port);
     void setAttributeSocket(int &sock);
     
+    void setNonBlocking(int &sock);
     //attribute
     unsigned int maxConnects;
-    int s;
+    int socMain; //the main listening socket file descripter
     int sflags;
-    
+    std::vector<serverconnection *> connections;
+    std::string dir;
+    unsigned int connId;
+    int fdmax;
+    fd_set working_set;
+    bool shutdown;
+    sockaddr_in addr;
+    struct sockaddr_storage addrStorage;
+    socklen_t addrLength;
+    sockaddr_in client;
+    socklen_t client_size;
+    unsigned short commadOffset;
 };
 
 #endif /* CORESERVER_H */

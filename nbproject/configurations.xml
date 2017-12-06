@@ -7,7 +7,7 @@
       <itemPath>Header/CoreServer.h</itemPath>
       <itemPath>Header/FTPs.h</itemPath>
       <itemPath>Header/filehandle.h</itemPath>
-      <itemPath>serverconnection.h</itemPath>
+      <itemPath>Header/serverconnection.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -21,7 +21,7 @@
       <itemPath>Resources/filehandle.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>Resources/server.cpp</itemPath>
-      <itemPath>serverconnection.cpp</itemPath>
+      <itemPath>Resources/serverconnection.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -51,19 +51,19 @@
       </item>
       <item path="Header/filehandle.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Header/serverconnection.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Resources/CoreServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Resources/filehandle.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Resources/server.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="Resources/serverconnection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Resources/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="serverconnection.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="serverconnection.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -92,19 +92,19 @@
       </item>
       <item path="Header/filehandle.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Header/serverconnection.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Resources/CoreServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Resources/filehandle.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Resources/server.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="Resources/serverconnection.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Resources/socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="serverconnection.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="serverconnection.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

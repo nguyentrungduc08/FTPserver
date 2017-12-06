@@ -48,7 +48,7 @@
 struct Command{
     std::string command;
     std::string arg;
-} Command;
+};
 
 static std::string welcome_message = "A very warm welcome!";
 
@@ -81,8 +81,6 @@ typedef struct State
 
 typedef enum conn_mode{NORMAL, SERVER, CLIENT} conn_mode;
 
-int createSocket(int port);
-void serverFTP(int port);
 
 
 #endif /* FTPS_H */
