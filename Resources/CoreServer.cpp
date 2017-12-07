@@ -14,20 +14,82 @@
 #include "../Header/CoreServer.h"
 
 CoreServer::CoreServer(uint port, std::string dir, unsigned short commandOffset) : dir(dir), commadOffset(commadOffset), shutdown(false), connId(0) {
-    
-    
+    if (chdir(dir.c_str())){
+        std::cerr << "Directory could not be change to " << dir <<" !!!" << std::endl;
+    }
+    this->createSocket(port);
+    this->start();
 }
 
 CoreServer::CoreServer(const CoreServer& orig) {
 }
 
 CoreServer::~CoreServer() {
+    std::cout << "Server shutdown!!" << std::endl;
+    close(this->socMain);
+}
+
+
+void CoreServer::buildSelect(){
+    FD_ZERO(&this->working_set);
+    
+    FD_SET(this->socMain, &this->working_set);
+    
+    std::vector<serverconnection *> ::iterator iter = this->connections.begin();
+    
+    while (iter != this->connections.end()){
+        if ( (*iter)->getCloseRequestStatus() == true){
+            std::cout << "Connection with Id " << (*iter)->getConnectionId() <<  " closed!!" <<std::endl;
+            delete(*iter);
+            this->connections.erase(iter);
+            if (this->connections.empty() || iter == this->connections.end()){
+                return;
+            }
+        } else{
+            int currentFD = (*iter)->getFD();
+            if (currentFD != 0){
+                FD_SET(currentFD, &(this->working_set));
+                if (currentFD > this->fdmax)
+                    this->fdmax = currentFD;
+            }
+        }
+        ++iter;
+    }
 }
 
 int CoreServer::start() {
+    struct timeval timeout;
+    
+    int readSocket;
+    timeout.tv_sec = 1;
+    timeout.tv_usec = 0;
+    
+    while (!this->shutdown){
+        this->buildSelect();
+        
+        readSocket = select(this->fdmax + 1, &(this->working_set), NULL, NULL, &timeout);
+        
+        if (readSocket < 0){
+            std::cerr <<"time out !!!!!!!!" << std::endl;
+            return (EXIT_FAILURE);
+        }
+        
+        
+    }
     
 }
 
+void CoreServer::readSocketData(){
+    
+    if (FD_ISSET(this->socMain, &(this->working_set))) {
+        
+        //if ( )
+        
+    }
+    
+    
+    
+}
 
 void CoreServer::createSocket(int port) {
     int reuseable = 1;

@@ -28,20 +28,23 @@ public:
     virtual ~filehandle();
     
     int readFile(std::string fileName);
-    
+    char * readFileBlock(unsigned long &sizeInBytes);
     
     
 private:
     std::vector<std::string> deletedDirectories;
     std::vector<std::string> deletedFiles;
-    void getValidFile(std::string *dirName);
     
     std::ofstream currentOpentFile;
     std::ifstream currentOpentReadFile;
-    std::list<std::string> completePath;
-    static void IntToString(int i, std::string & res);
     
+    //the path from server root dir upwards to the current working dir, each list element containing one dir
+    std::list<std::string> completePath;
+    
+    static void IntToString(int i, std::string & res);
     void stripServerRootString(std::string &dirOrFileName);
+    void getValidDir(std::string &dirName);
+    void getValidFile(std::string &fileName);
     
     
 };
