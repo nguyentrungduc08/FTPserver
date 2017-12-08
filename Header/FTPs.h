@@ -30,6 +30,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include <sys/stat.h>
 
 #include <time.h>
 #include <stdio.h>

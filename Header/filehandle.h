@@ -30,6 +30,30 @@ public:
     int readFile(std::string fileName);
     char * readFileBlock(unsigned long &sizeInBytes);
     
+    int writeFileAtOnce(std::string fileName, char * content);
+    int beginWriteFile(std::string fileName);
+    int writeFileBlock(std::string content);
+    int closeWriteFile();
+    
+    bool changeDir(std::string newPath, bool strict = true);
+    std::string  getCurrentWorkingDir(bool showRootPath = true);
+   
+    bool createDirectory(std::string &dirName, bool strict = true);
+    bool createFile(std::string &fileName, bool strict = true);
+    bool deleteDirectory(std::string dirName, bool cancel = false, std::string pathToDir = "");
+    bool deleteFile(std::string fileName, bool strict = true);
+    void browse(std::string dir, std::vector<std::string> &directories, std::vector<std::string> &files, bool strict = true);
+    
+    bool dirCanOpen(std::string dir);
+    std::string getParentDir();
+    unsigned long getDirSize(std::string dirName);
+    std::vector<std::string> getStats (std::string fileName, struct stat Status);
+    void clearListOfDeletedFiles();
+    void clearListOfDeletedDirectories();
+    std::vector<std::string> getDeletedFiles();
+    std::vector<std::string> getDeletedDirectories();
+    
+    bool dirIsBelowServerRoot(std::string dirName);
     
 private:
     std::vector<std::string> deletedDirectories;

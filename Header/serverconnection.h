@@ -15,10 +15,13 @@
 #define SERVERCONNECTION_H
 
 #include "FTPs.h"
+#include "filehandle.h"
+
 
 class serverconnection {
 public:
-    serverconnection();
+    serverconnection(int fd, unsigned int connId, std::string defaultDir, std::string hostId, unsigned short commandOffset = 1);
+    
     serverconnection(const serverconnection& orig);
     virtual ~serverconnection();
     
@@ -27,9 +30,12 @@ public:
     int getFD();
     bool getCloseRequestStatus();
     unsigned int getConnectionId();
-
+    
+    std::string commandParser(std::string commad);
+    std::vector<std::string> extractParameters(std::string command);
+    
 private:
-    int fd; 
+    int fd; //for each connection from clinet
     int fdflags;
     bool closureRequested;
     std::vector<std::string> directories;
@@ -40,6 +46,13 @@ private:
     bool uploadCommand;
     bool downloadCommand;
     std::string parameter;
+    filehandle *fh;
+    
+    unsigned short commandOffset;
+    unsigned long receivedPart;
+    void sendToClient(char * response, unsigned long length);         
+    void sendToclient(std::string response);
+    bool commandEquals(std::string a, std::string inString);
     
 };
 
