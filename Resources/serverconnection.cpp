@@ -80,7 +80,7 @@ void serverconnection::respondToQuery(){
         
         if (this->uploadCommand){
             std::cout <<"Part " << ++(this->receivedPart) <<": ";
-            this->fh->readFileBlock(clienCommand);
+            //this->fh->readFileBlock(clienCommand);
         }
     }
 }

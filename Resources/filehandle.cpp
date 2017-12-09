@@ -23,21 +23,7 @@ filehandle::filehandle(const filehandle& orig) {
 filehandle::~filehandle() {
     this->completePath.clear();
 }
-int filehandle::readFile(std::string fileName){
-    stripServerRootString(fileName);
-    //set binary file model
-    this->currentOpentReadFile.open(fileName.c_str(), std::ios::in|std::ios::binary);
 
-    if (this->currentOpentReadFile.fail()){
-    	std::cerr << "Reading file " << fileName << "failed!" << std::endl;
-    	return (EXIT_FAILURE);
-    }
-    if  (this->currentOpentReadFile.is_open()) {
-        return (EXIT_SUCCESS);
-    }
-    std::cerr << "Unable to open file '" << fileName << " '" << std::endl; // << strerror(errno)
-    return (EXIT_FAILURE);
-}
 
 
 void filehandle::stripServerRootString(std::string &dirOrFileName){
@@ -84,4 +70,83 @@ char * filehandle::readFileBlock(unsigned long& sizeInBytes){
     std::cout <<"Reading " << size << " Bytes" << std::endl;
     this->currentOpentReadFile.close();
     return memblock;    
+}
+
+int filehandle::readFile(std::string fileName){
+    stripServerRootString(fileName);
+    this->currentOpentReadFile.open(fileName.c_str(), std::ios::in|std::ios::binary);
+    if (this->currentOpentReadFile.fail()){
+        std::cout << "Reading file " << fileName << std::endl;
+        return (EXIT_FAILURE);
+    }
+    
+    if (this->currentOpentReadFile.is_open()){
+        return (EXIT_SUCCESS);
+    }
+    
+    std::cerr << "Unable to open file " << fileName << std::endl;
+    return (EXIT_FAILURE);        
+}
+
+int filehandle::writeFileBlock(std::string content){
+    if (!this->currentOpentFile){
+        std::cerr << "Cannot write to output file " << std::endl;
+        return (EXIT_FAILURE);
+    }
+    
+    std::cout <<"Appending to file" << std::endl;
+    (this->currentOpentFile) << content;
+    return (EXIT_SUCCESS);
+}
+
+//close stream file output (write file)
+int filehandle::closeWriteFile(){
+    if (this->currentOpentFile.is_open()){
+        std::cout << "Closing open file " << std::endl;
+        this->currentOpentFile.close();
+    }
+}
+
+int filehandle::writeFileAtOnce(std::string fileName, char* content){
+    stripServerRootString(fileName);
+    std::ofstream myFile(fileName.c_str(), std::ios::out|std::ios::binary);
+    
+    if (!myFile){
+        std::cerr << "Cannot open output file " << fileName << std::endl;
+        return (EXIT_FAILURE);
+    }
+    myFile << content;
+    myFile.close();
+    return (EXIT_SUCCESS);
+}
+
+bool filehandle::createFile(std::string& fileName, bool strict){
+    if (strict){
+        this->getValidFile(fileName);
+    }
+    try{
+        std::ofstream fileout;
+        fileout.open(this->getCurrentWorkingDir().append(fileName).c_str(), std::ios::out|std::ios::binary|std::ios::app);
+        fileout.close();
+    } catch (std::exception e){
+        std::cerr << e.what() << std::endl;
+        return (EXIT_FAILURE);
+    }
+    return (EXIT_SUCCESS);
+}
+
+std::string filehandle::getCurrentWorkingDir(bool showRootPath){
+    std::string fullpath = "";
+    std::list<std::string>::iterator singleDir;
+    for( singleDir = this->completePath.begin(); singleDir != this->completePath.end(); ++singleDir ) {
+        if (singleDir == this->completePath.begin()) {
+            if (!showRootPath){
+                fullpath.append(SERVERROOTPATHSTRING);
+            } else{
+                //...
+            }
+        } else{
+            fullpath.append(*(singleDir));
+        }
+    }
 }
