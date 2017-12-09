@@ -11,6 +11,8 @@
  * Created on December 5, 2017, 6:22 PM
  */
 
+#include <stdbool.h>
+
 #include "../Header/filehandle.h"
 
 filehandle::filehandle(std::string dir) {
@@ -149,4 +151,68 @@ std::string filehandle::getCurrentWorkingDir(bool showRootPath){
             fullpath.append(*(singleDir));
         }
     }
+}
+
+//delete file on server
+bool filehandle::deleteFile(std::string fileName, bool strict){
+    if (strict){
+        this->getValidFile(fileName);
+    } 
+    if (remove(this->getCurrentWorkingDir().append(fileName.c_str()).c_str()) != 0 ){
+        return (EXIT_FAILURE);
+    } else {
+        std::cout << "File " << fileName << std::endl;
+        this->deletedFiles.pb(fileName);
+        return (EXIT_SUCCESS);
+    }
+}
+
+bool filehandle::deleteDirectory(std::string dirName, bool cancel, std::string pathToDir){
+    if (cancel){
+        return true;
+    }
+    
+    getValidDir(dirName);
+    
+    std::vector<std::string> * directories = new std::vector<std::string>();
+    std::vector<std::string>::iterator dirIterator;
+    std::vector<std::string> * files = new std::vector<std::string>();
+    std::vector<std::string>::iterator fileIterator;
+    
+    pathToDir.append(dirName);
+    
+    this->browse(pathToDir, *directories,*files, false);
+    
+    
+    fileIterator = files->begin();
+    while(fileIterator != files->end()){
+        cancel = (this->deleteFile(pathToDir + (*fileIterator++), false) || cancel );
+    }
+    
+    dirIterator = directories->begin();
+    
+    while (dirIterator != directories->end() ){
+        if ( (*(dirIterator)).compare(".") == 0 || ((*(dirIterator)).compare("..") == 0 ) ){
+            ++dirIterator;
+            continue;
+        }
+       
+        cancel = (this->deleteDirectory((*(dirIterator++)).append("/"), cancel, pathToDir ) || cancel );
+    }
+    
+    if ( (pathToDir.compare(".") != 0) && (pathToDir.compare("..") !=0) )
+    { 
+        if ( rmdir(this->getCurrentWorkingDir().append(pathToDir).c_str()) < 0) {
+            std::cerr << "Failed deleting directory " << this->getCurrentWorkingDir(false).append(pathToDir) << " " << std::endl;
+        } else {
+            std::cout << "Directory " << pathToDir << " deleted" << std::endl;
+            this->deletedDirectories.pb(pathToDir);
+        }
+    }
+    return cancel;
+    
+}
+
+void filehandle::browse(std::string dir, std::vector<std::string>& directories, std::vector<std::string>& files, bool strict ){
+    
 }
