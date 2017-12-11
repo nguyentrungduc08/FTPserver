@@ -216,3 +216,42 @@ bool filehandle::deleteDirectory(std::string dirName, bool cancel, std::string p
 void filehandle::browse(std::string dir, std::vector<std::string>& directories, std::vector<std::string>& files, bool strict ){
     
 }
+
+// Returns true if dir can be opened
+bool filehandle::dirCanOpen(std::string dir) {
+    DIR *dp;
+    bool canBeOpened = false;
+    canBeOpened = ((dp = opendir(dir.c_str())) != NULL); // Anything else than NULL is good
+    closedir(dp);
+    return canBeOpened;
+}
+
+// Relative directories only, strict
+bool filehandle::changeDir(std::string newPath, bool strict) {
+    if (strict) // When using strict mode, the function only allows one subdirectreadFileory and not several subdirectories, e.g. like sub/subsub/dir/ ...
+        getValidDir(newPath); // check error cases, e.g. newPath = '..//' , '/home/user/' , 'subdir' (without trailing slash), etc...
+    // If change to a higher directory is requested
+    if ( (newPath.compare("..") == 0) || (newPath.compare("../") == 0) ) {
+        // If we are already in the server root dir, prohibit the change to a higher directory
+        if (this->completePath.size() <= 1) {
+            std::cerr << "Error: Change beyond server root requested (prohibited)!" << std::endl;
+            return (EXIT_FAILURE); // 1
+        } else { // change is permitted, now do it!
+            this->completePath.pop_back(); // Remove the last dir we were in and return to the lower one
+            return (EXIT_SUCCESS); // 0
+        }
+    }
+    // The change is the local directory !?
+    if ( (newPath.compare(".") == 0) || (newPath.compare("./") == 0)) {
+        std::cout << "Change to same dir requested (nothing done)!" << std::endl;
+        return (EXIT_SUCCESS); // 0 (?)
+    }
+// std::cout << "dir " << this->getCurrentWorkingDir().append(newPath) << std::endl;
+    // Normal (sub-)directory given
+    if (this->dirCanOpen(this->getCurrentWorkingDir().append(newPath))) {
+        this->completePath.push_back(newPath); // Add the new working dir to our path list
+        return (EXIT_SUCCESS); // 0
+    } else {
+        return (EXIT_FAILURE); // 1
+    }
+}

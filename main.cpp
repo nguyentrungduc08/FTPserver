@@ -30,14 +30,26 @@ int main(int argc, char** argv) {
         std::cerr << "Usage: ftpserver <dir> <port> " << std::endl;
     } else {
         switch (argc){
-            case 2:
+            case 2:{
                 filehandle * db = new filehandle(dir);
-                //if (db->)
+                if (db->dirCanOpen(argv[2])){
+                    dir = argv[1];
+                    db->changeDir(dir, false);
+                } else {
+                    std::cout <<"Invalid path specified " << argv[1] << " falling back to " << dir << std::endl;
+                }
+                break;
+            }
+            case 3:
+                port = atoi(argv[2]);
+                break;
+            case 4:
+                commandOffset = 3;
         }
     }
     
-    //CoreServer * ftpserver = new CoreServer();
-   
-    return 0;
+    CoreServer *ftpserver = new CoreServer(port,dir, commandOffset);
+    
+    return (EXIT_SUCCESS);
 }
 

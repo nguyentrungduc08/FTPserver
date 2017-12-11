@@ -11,6 +11,8 @@
  * Created on December 5, 2017, 5:48 PM
  */
 
+#include <arpa/inet.h>
+
 #include "../Header/CoreServer.h"
 
 CoreServer::CoreServer(uint port, std::string dir, unsigned short commandOffset) : dir(dir), commadOffset(commadOffset), shutdown(false), connId(0) {
@@ -27,6 +29,7 @@ CoreServer::CoreServer(const CoreServer& orig) {
 CoreServer::~CoreServer() {
     std::cout << "Server shutdown!!" << std::endl;
     close(this->socMain);
+    this->freeAllConnections();
 }
 
 
@@ -108,6 +111,23 @@ int CoreServer::handleNewConnection(){
     int port;
     this->addrLength = sizeof(this->addrStorage);
     
+    getpeername(fd, (struct sockaddr*) &this->addrStorage, &(this->addrLength));
+    
+    std::string hostId = "";
+    if (this->addr.sin_family == AF_INET){
+        struct sockaddr_in * fd = (struct sockaddr_in*) &(this->addrStorage);
+        port = ntohs(fd->sin_port);
+        inet_ntop(AF_INET, &fd->sin_addr, ipstr, sizeof(ipstr));
+        hostId = (std::string) ipstr;
+    }
+    
+    printf("Connection accepted: FD=%d - Slot=%ld - Id=%u \n", fd, (this->connections.size()+1), ++(this->connId));
+    
+    serverconnection * conn = new serverconnection(fd, this->connId, this->dir, hostId, this->commadOffset);
+    
+    this->connections.pb(conn);
+    return (EXIT_SUCCESS);
+    
 }
 
 void CoreServer::freeAllConnections(){
@@ -122,12 +142,16 @@ void CoreServer::readSocketData(){
     
     if (FD_ISSET(this->socMain, &(this->working_set))) {
         
-        //if ( )
+        if (this->handleNewConnection() ) return;
         
     }
     
-    
-    
+    for(unsigned int listnum = 0; listnum < this->connections.size(); ++listnum){
+        if (FD_ISSET(this->connections.at(listnum)->getFD(),&(this->working_set))) {
+            this->connections.at(listnum)->respondToQuery();
+        }
+    }
+
 }
 
 void CoreServer::createSocket(int port) {

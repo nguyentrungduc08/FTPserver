@@ -33,6 +33,7 @@
 #include <sys/stat.h>
 
 #include <time.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
