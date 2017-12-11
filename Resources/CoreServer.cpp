@@ -73,10 +73,49 @@ int CoreServer::start() {
             std::cerr <<"time out !!!!!!!!" << std::endl;
             return (EXIT_FAILURE);
         }
-        
-        
+       
     }
     
+}
+
+int CoreServer::handleNewConnection(){
+    int fd;
+    
+    this->client_size = sizeof(this->client);
+    
+    fd = accept(this->socMain, (struct sockaddr *) &client, &client_size);
+    
+    if (fd  < 0){
+        std::cerr << "Error while accepting client " << std::endl;
+        return (EXIT_FAILURE);
+    }
+    
+    this->setAttributeSocket(fd);
+    
+    if (fd == -1 ){
+        std::cerr << "Something went wrong, new connection could not be handled (Maybe server too busy, too many connections?)" << std::endl;
+        try{
+            close(fd);
+            
+        } catch (std::exception e){
+            std::cerr << e.what() << std::endl;
+        }       
+        return (EXIT_FAILURE);
+    }
+    
+    //get client IP address 
+    char ipstr[INET6_ADDRSTRLEN];
+    int port;
+    this->addrLength = sizeof(this->addrStorage);
+    
+}
+
+void CoreServer::freeAllConnections(){
+    std::vector<serverconnection*>::iterator iter = this->connections.begin();
+    while(iter != this->connections.end()){
+        delete(*(iter++));
+    }
+    this->connections.clear();
 }
 
 void CoreServer::readSocketData(){

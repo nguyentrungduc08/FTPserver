@@ -28,6 +28,9 @@ private:
     void setAttributeSocket(int &sock);
     void buildSelect();
     void readSocketData();
+    int handleNewConnection();
+    void freeAllConnections();
+    
     //attribute
     unsigned int maxConnects;
     int socMain; //the main listening socket file descripter
