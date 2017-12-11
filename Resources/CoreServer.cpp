@@ -68,7 +68,7 @@ int CoreServer::start() {
     timeout.tv_usec = 0;
     
     while (!this->shutdown){
-        this->buildSelect();
+        this->buildSelect();    
         
         readSocket = select(this->fdmax + 1, &(this->working_set), NULL, NULL, &timeout);
         
@@ -76,7 +76,8 @@ int CoreServer::start() {
             std::cerr <<"time out !!!!!!!!" << std::endl;
             return (EXIT_FAILURE);
         }
-       
+        
+        this->readSocketData();
     }
     
 }

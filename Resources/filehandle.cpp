@@ -235,10 +235,10 @@ bool filehandle::changeDir(std::string newPath, bool strict) {
         // If we are already in the server root dir, prohibit the change to a higher directory
         if (this->completePath.size() <= 1) {
             std::cerr << "Error: Change beyond server root requested (prohibited)!" << std::endl;
-            return (EXIT_FAILURE); // 1
+            return (EXIT_FAILURE); 
         } else { // change is permitted, now do it!
             this->completePath.pop_back(); // Remove the last dir we were in and return to the lower one
-            return (EXIT_SUCCESS); // 0
+            return (EXIT_SUCCESS); 
         }
     }
     // The change is the local directory !?
@@ -246,8 +246,7 @@ bool filehandle::changeDir(std::string newPath, bool strict) {
         std::cout << "Change to same dir requested (nothing done)!" << std::endl;
         return (EXIT_SUCCESS); // 0 (?)
     }
-// std::cout << "dir " << this->getCurrentWorkingDir().append(newPath) << std::endl;
-    // Normal (sub-)directory given
+
     if (this->dirCanOpen(this->getCurrentWorkingDir().append(newPath))) {
         this->completePath.push_back(newPath); // Add the new working dir to our path list
         return (EXIT_SUCCESS); // 0
